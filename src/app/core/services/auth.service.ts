@@ -28,9 +28,14 @@ export class AuthService {
     const stored = this.getLocalStorageItem('currentUser');
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const decrypted = this.decrypt(stored);
+        return JSON.parse(decrypted);
       } catch {
-        return null;
+        try {
+          return JSON.parse(stored);
+        } catch {
+          return null;
+        }
       }
     }
     return null;
@@ -48,7 +53,9 @@ export class AuthService {
 
     if (user) {
       this.currentUser.set(user);
-      this.setLocalStorageItem('currentUser', JSON.stringify(user));
+      const json = JSON.stringify(user);
+      const encrypted = this.encrypt(json);
+      this.setLocalStorageItem('currentUser', encrypted);
       return user;
     }
 
@@ -68,16 +75,23 @@ export class AuthService {
     const stored = this.getLocalStorageItem('users');
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const decrypted = this.decrypt(stored);
+        return JSON.parse(decrypted);
       } catch {
-        return [];
+        try {
+          return JSON.parse(stored);
+        } catch {
+          return [];
+        }
       }
     }
     return [];
   }
 
   saveUsers(users: AppUser[]): void {
-    this.setLocalStorageItem('users', JSON.stringify(users));
+    const json = JSON.stringify(users);
+    const encrypted = this.encrypt(json);
+    this.setLocalStorageItem('users', encrypted);
   }
 
   encrypt(value: string): string {
