@@ -1,0 +1,71 @@
+<section class="card table-card">
+  <div class="table-header">
+    <h3>User Directory</h3>
+    <div class="table-header-actions">
+      <span class="record-count">{{ users.length }} records</span>
+      @if (canAddUser) {
+        <button type="button" class="btn-primary" (click)="add.emit()">
+          <span class="btn-icon">+</span>
+          <span>Add User</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (users.length) {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Alias</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users; track user.id) {
+            <tr>
+              <td>
+                <div class="cell-content">
+                  <span class="cell-text">{{ user.alias }}</span>
+                </div>
+              </td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button
+                    type="button"
+                    class="btn-action btn-edit"
+                    (click)="edit.emit(user)"
+                    title="Edit"
+                  >
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-action btn-delete"
+                    (click)="delete.emit(user.id)"
+                    title="Delete"
+                  >
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <div class="empty-icon-wrapper">
+        <div class="empty-icon">👤</div>
+        <div class="empty-icon-glow"></div>
+      </div>
+      <h3>No users yet</h3>
+      <p>Start by adding your first user and assigning permissions.</p>
+    </div>
+  }
+</section>

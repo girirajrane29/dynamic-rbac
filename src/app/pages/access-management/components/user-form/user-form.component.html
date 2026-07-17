@@ -1,0 +1,172 @@
+<section class="card form-card">
+  <div class="form-header">
+    <h3>{{ editing ? 'Edit User' : 'Create New User' }}</h3>
+    <p class="form-subtitle">Fill in the details below</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submitForm.emit()" class="form-body">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        formControlName="name"
+        id="name"
+        placeholder="Enter full name"
+        class="form-input"
+        [class.invalid]="showError('name')"
+      />
+      @if (showError('name')) {
+        <span class="error-msg">Name is required.</span>
+      }
+    </div>
+    <div class="form-group">
+      <label for="alias">Alias</label>
+      <input
+        formControlName="alias"
+        id="alias"
+        placeholder="Enter alias"
+        class="form-input"
+        [class.invalid]="showError('alias')"
+      />
+      @if (showError('alias')) {
+        <span class="error-msg">Alias is required.</span>
+      }
+    </div>
+    @if (!editing) {
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          formControlName="email"
+          id="email"
+          type="email"
+          placeholder="Enter email"
+          class="form-input"
+          [class.invalid]="showError('email')"
+        />
+        @if (showError('email')) {
+          <span class="error-msg">Please enter a valid email address.</span>
+        }
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          formControlName="password"
+          id="password"
+          type="password"
+          placeholder="Create password"
+          class="form-input"
+          [class.invalid]="showError('password')"
+        />
+        @if (showError('password')) {
+          <span class="error-msg">Password is required.</span>
+        }
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm password"
+          class="form-input"
+          [class.invalid]="showError('confirmPassword')"
+        />
+        @if (showPasswordMismatch()) {
+          <span class="error-msg">Passwords do not match.</span>
+        } @else if (showError('confirmPassword')) {
+          <span class="error-msg">Please confirm your password.</span>
+        }
+      </div>
+    }
+
+    <div class="permissions-card">
+      <h4>Permissions</h4>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Module Name</th>
+              <th>Select All</th>
+              <th>View</th>
+              <th>Create</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (module of modules; track module.key) {
+              <tr>
+                <td>{{ module.name }}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="isModuleFullySelected(module)"
+                    (change)="selectAllPermissions.emit({ moduleKey: module.key, event: $event })"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="module.permissions['view']"
+                    (change)="
+                      togglePermission.emit({
+                        moduleKey: module.key,
+                        permissionKey: 'view',
+                        event: $event,
+                      })
+                    "
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="module.permissions['create']"
+                    (change)="
+                      togglePermission.emit({
+                        moduleKey: module.key,
+                        permissionKey: 'create',
+                        event: $event,
+                      })
+                    "
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="module.permissions['update']"
+                    (change)="
+                      togglePermission.emit({
+                        moduleKey: module.key,
+                        permissionKey: 'update',
+                        event: $event,
+                      })
+                    "
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="module.permissions['delete']"
+                    (change)="
+                      togglePermission.emit({
+                        moduleKey: module.key,
+                        permissionKey: 'delete',
+                        event: $event,
+                      })
+                    "
+                  />
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+
+  <div class="form-footer">
+    <button type="button" class="btn-cancel" (click)="cancel.emit()">Cancel</button>
+    <button type="submit" class="btn-submit" (click)="submitForm.emit()">
+      {{ editing ? 'Update User' : 'Create User' }}
+    </button>
+  </div>
+</section>

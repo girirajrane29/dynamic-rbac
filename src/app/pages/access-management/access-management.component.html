@@ -1,0 +1,36 @@
+<div class="page-shell">
+  <div class="background-pattern"></div>
+
+  <section class="hero-card">
+    <div class="hero-content">
+      <p class="eyebrow">Access Management</p>
+      <h2>Create & Manage Users</h2>
+      <p class="subtitle">
+        Create users, assign permissions, and keep your access matrix polished and easy to manage.
+      </p>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-inner">AM</div>
+      <div class="badge-glow"></div>
+    </div>
+  </section>
+
+  @if (!showForm) {
+    <app-user-list
+      [users]="users"
+      (add)="startCreate()"
+      (edit)="editUser($event)"
+      (delete)="deleteUser($event)"
+    ></app-user-list>
+  } @else {
+    <app-user-form
+      [form]="form"
+      [editing]="editing"
+      [modules]="modules"
+      (submitForm)="submit()"
+      (cancel)="cancelForm()"
+      (togglePermission)="toggle($event.moduleKey, $event.permissionKey, $event.event)"
+      (selectAllPermissions)="toggleAll($event.moduleKey, $event.event)"
+    ></app-user-form>
+  }
+</div>

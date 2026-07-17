@@ -1,0 +1,29 @@
+<main class="app-shell">
+  @if (showShell()) {
+    <nav class="topbar">
+      <div class="topbar-left">
+        <div class="brand">
+          <span class="brand-icon">🔐</span>
+          <span class="brand-text">RBAC Demo</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        @if (authService.isAuthenticated()) {
+          <button type="button" class="logout-btn" (click)="logout()">
+            <span class="logout-icon">←</span>
+            <span>Logout</span>
+          </button>
+        } @else if (!isLoginPage) {
+          <button type="button" class="login-btn" routerLink="/login">
+            <span class="login-icon">→</span>
+            <span>Login</span>
+          </button>
+        }
+      </div>
+    </nav>
+  }
+
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+</main>
