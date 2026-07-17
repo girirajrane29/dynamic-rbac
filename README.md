@@ -7,7 +7,7 @@ A robust, portfolio-quality frontend implementation of a **Dynamic Role-Based Ac
 ## 🚀 Live Demo
 
 You can explore the live deployment of this project here:
-👉 **[Dynamic RBAC Live Application](https://dynamic-rbac-angular.vercel.app/)** *(Note: If hosting on a custom URL, replace this placeholder link)*
+👉 **[Dynamic RBAC Live Application](https://dynamic-rbac.vercel.app/)** *(Note: If hosting on a custom URL, replace this placeholder link)*
 
 ---
 
