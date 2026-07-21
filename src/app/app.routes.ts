@@ -4,14 +4,18 @@ import { AccessManagementComponent } from './pages/access-management/access-mana
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { permissionGuard } from './core/guards/permission.guard';
+import { guestGuard } from './core/guards/guest.guard';
 import { Permissions } from './core/constants/permissions';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'manageaccess', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // Guest-only routes (accessible only when NOT logged in)
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
   {
     path: 'manageaccess',
     component: AccessManagementComponent,
+    canActivate: [guestGuard],
   },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [permissionGuard] },

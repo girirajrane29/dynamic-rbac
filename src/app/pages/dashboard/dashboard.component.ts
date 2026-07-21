@@ -289,6 +289,11 @@ import { Permissions } from '../../core/constants/permissions';
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
         z-index: 1;
+        max-width: 100%;
+      }
+
+      .card {
+        max-width: calc(50vw - 34px);
       }
     `,
     `
